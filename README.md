@@ -18,7 +18,7 @@ we provide a package
 After you download and unzip to you folder. you can run the RSLabel.exe
 
 or you can download the binary from here
-[rslabel-install](https://pan.baidu.com/s/1Eu3-DGivSVMUfGeexfCF8A)   the extraction code is **8tua**
+[rslabel-install](https://pan.baidu.com/s/1ZsFWe4stKG32DksUUzPSNQ)   the extraction code is **7243**
 
 ##  get started!
 - build overviews for images.  
