@@ -38,13 +38,13 @@ fit_to_content:
   column: true
   row: false
 
-
 epsilon: 11.0
 
 shortcuts:
   close: Ctrl+W
   open: Ctrl+O
   open_dir: Ctrl+U
+  open_offline_layer: Ctrl+T
   quit: Ctrl+Q
   save: Ctrl+S
   save_as: Ctrl+Shift+S

@@ -433,6 +433,9 @@ class LabelmePlugin:
         for item, shape in self.labelList.itemsToShapes:
             item.setCheckState(Qt.Checked if value else Qt.Unchecked)
 
+    def importOfflineTileLayer(self, name):
+        self.iface.importOfflineXYZtiles(self.offlineImportDir,name)
+
     def openDirDialog(self, _value=False, dirpath=None):
         if not self.mayContinue():
             return
@@ -696,7 +699,7 @@ class LabelmePlugin:
                     self.errorMessage('导入文件发生错误', '请检查json文件格式')
                     return
             shutil.copy(filename, './.label.json')
-                
+               
 
     def deleteSelectedShape(self):
         hasSelectedShape = self.editor.hasSelectedShape()
@@ -1286,7 +1289,6 @@ class LabelmePlugin:
             createLineStripMode=createLineStripMode,
             shapeLineColor=shapeLineColor, shapeFillColor=shapeFillColor,
             openNextImg=openNextImg, openPrevImg=openPrevImg,
-            fileMenuActions=(open_, opendir, save, saveAs, exportAs, close, quit),
             tool=(),
             editMenu=(edit, copy, delete, None, undo, #undoLastPoint,
                       None, color1, color2, gridSzAndColor, None, import_label_file),
@@ -1672,6 +1674,13 @@ class LabelmePlugin:
             self.settings.sync()
             self.statusBar().showMessage('导出数据集成功')
 
+    def selectOfflineLayerImportDir(self):
+        targetDirPath = str(QtWidgets.QFileDialog.getExistingDirectory(
+            self.mainWnd, '%s - Open Directory' % __appname__, '.',
+            QtWidgets.QFileDialog.ShowDirsOnly |
+            QtWidgets.QFileDialog.DontResolveSymlinks))
+        self.offline_dialog.txtImportDir.setText(targetDirPath)
+        self.offlineImportDir = targetDirPath
 
     def selectExportDir(self):
         targetDirPath = str(QtWidgets.QFileDialog.getExistingDirectory(

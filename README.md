@@ -13,12 +13,12 @@ you can using annaconda to download the python3.6 env and install PyQT5, gdal yo
 
 we provide a package 
 
-[python3.6 + PyGdal + PyQT5](https://pan.baidu.com/s/1h4soOEfQGFiTA88H1b8yuw)
+[python3.7 + PyGdal + PyQT5](https://pan.baidu.com/s/1h4soOEfQGFiTA88H1b8yuw)
 
-After you download and unzip to you folder. you can run the RSLabel.exe
+After you download it and unzip to your root folder. you can run the RSLabel.exe
 
 or you can download the binary from here
-[rslabel-install](https://pan.baidu.com/s/1ZsFWe4stKG32DksUUzPSNQ)   the extraction code is **7243**
+[rslabel-install](https://pan.baidu.com/s/1d_f6AMOexDiOdXdTIxtWxA)   the extraction code is **tqtr**
 
 ##  get started!
 - build overviews for images.  
@@ -51,6 +51,11 @@ this tool is very convinient to label object with an angle. look that
 ##	export the result as VOC or COCO format
 you can export the result as VOC or COCO dataset's format , and use tensorflow or other deep learning framework to train the data.
 ![](https://github.com/enigma19971/RSLabel/blob/master/exportas.PNG "export as VOC")
+
+## integrate the cesium as a plugin
+When marking an image, if the image contains geographic coordinates, you can use it as a layer on the cesium digital earth, but this feature may affect the speed of the software, you can also remove this plug-in by removing the python/plugins directory under the root
+![](https://github.com/enigma19971/RSLabel/blob/master/rslabel-with-cesium.PNG "cesium global earth as a plugin ")
+
 
 ##	contact us
 weixin  714601476

@@ -17,6 +17,7 @@ from .draw import label_colormap
 from .draw import label2rgb
 
 from .qt import newIcon
+from .qt import newImage
 from .qt import newButton
 from .qt import newAction
 from .qt import addActions

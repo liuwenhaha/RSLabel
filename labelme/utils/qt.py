@@ -15,6 +15,11 @@ def newIcon(icon):
     return QtGui.QIcon(osp.join(':/', icons_dir, '%s.png' % icon))
 
 
+def newImage(img):
+    icons_dir = osp.join(here, '../icons')
+    return QtGui.QPixmap(osp.join(':/', icons_dir, '%s.png' % img))
+
+
 def newButton(text, icon=None, slot=None):
     b = QtWidgets.QPushButton(text)
     if icon is not None:

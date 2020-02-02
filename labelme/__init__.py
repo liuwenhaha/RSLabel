@@ -4,8 +4,9 @@ import yaml
 __appname__ = 'RSLabel'
 here = osp.dirname(osp.abspath(__file__))
 
+
 def name():
-    return "OpenStreetMap plugin"
+    return "labelme plugin"
 
 
 def description():
@@ -25,8 +26,7 @@ def classFactory(iface):
     print('*classFactory, begin to load labelme plugin')
     from .Plugin import LabelmePlugin
     # return object of our plugin with reference to QGIS interface as the only argument
-    return LabelmePlugin(iface) 
-
+    return LabelmePlugin(iface)
 
 
 logging.basicConfig(level=logging.INFO)
@@ -34,6 +34,7 @@ logger = logging.getLogger('RSLabel')
 del logging
 
 print('__init__ in labelme')
+
 
 def versionNumber():
     return "0.1"
