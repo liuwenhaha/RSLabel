@@ -51,14 +51,16 @@ iface = None
 
 def initInterface(pointer):
     print("[here is]:", __file__, sys._getframe().f_lineno)
-    from sip import wrapinstance
-    print("[here is]:", __file__, sys._getframe().f_lineno)
-    from rslabel.gui import QgisInterface
-    print("[here is]:", __file__, sys._getframe().f_lineno)
-    global iface
-    print('[rslabel.utils]:begin to wrap instance...')
-    iface = wrapinstance(pointer, QgisInterface)
-    print('[rslabel.utils]:wrap instance end')
+    try:
+        from sip import wrapinstance
+        from rslabel.gui import QgisInterface
+        global iface
+        print('[rslabel.utils]:begin to wrap instance...')
+        iface = wrapinstance(pointer, QgisInterface)
+        print('[rslabel.utils]:wrap instance end')
+    except:
+        print('[rslabel.utils]: can not initialize interface')
+        traceback.print_exc()
 
 
 #######################

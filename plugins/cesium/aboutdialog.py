@@ -29,10 +29,11 @@
 
 import os
 import configparser
-
+'''
 from qgis.PyQt.QtCore import QLocale, QUrl
 from qgis.PyQt.QtGui import QPixmap, QTextDocument, QDesktopServices
 from qgis.PyQt.QtWidgets import QDialogButtonBox, QDialog
+'''
 
 from .ui.ui_aboutdialogbase import Ui_Dialog
 

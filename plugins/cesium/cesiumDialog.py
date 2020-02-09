@@ -19,7 +19,7 @@ def createTabWidget(parent):
     webview.load(QUrl(url))
     tabWidget.setLayout(QVBoxLayout())
     tabWidget.layout().addWidget(webview)
-    return tabWidget
+    return tabWidget, webview
 
 
 class cesiumDialog(QDockWidget):
@@ -38,3 +38,6 @@ class cesiumDialog(QDockWidget):
             self.setWidget(self.centralWidget)
         except:
             traceback.print_exc()
+
+    def evalJavascript(self, content):
+        self.webview.page().mainFrame().evaluateJavaScript(content)

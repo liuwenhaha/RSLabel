@@ -3,11 +3,16 @@ import sys
 import traceback
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
 from .cesiumDialog import cesiumDialog, createTabWidget
-from .aboutdialog import AboutDialog
 from .cesium_utils import *
 from . import resources_rc
+try:
+    from gdal2tiles import *
+    print('[cesium]: import gdal2tiles :-)')
+except:
+    print('[cesium]: cannot import gdal2tiles :(')
 
 
 class cesiumPlugin:
@@ -45,6 +50,9 @@ class cesiumPlugin:
         self.iface.registerMainWindowAction(self.actionRun, 'Shift+C')
         self.actionRun.setIcon(QIcon(':/icons/Cesium_Logo_Flat.png'))
         self.actionRun.setWhatsThis('cesium global earth')
+        self.action2Earth = QAction('On Earth', self.iface.mainWindow())
+        self.action2Earth.setIcon(QIcon(':/icons/toEarth.png'))
+        self.action2Earth.setWhatsThis('add layer to cesium global earth')
         self.actionAbout = QAction(QCoreApplication.translate(
             'cesium', 'About cesium...'), self.iface.mainWindow())
         self.actionAbout.setIcon(QIcon(':/icons/about.png'))
@@ -58,10 +66,14 @@ class cesiumPlugin:
         print("[here is]:", __file__, sys._getframe().f_lineno)
         self.toolbar = QToolBar('cesium')
         self.toolbar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-        btn = QToolButton()
-        btn.setDefaultAction(self.actionRun)
-        btn.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-        self.toolbar.addWidget(btn)
+        btn0 = QToolButton()
+        btn0.setDefaultAction(self.actionRun)
+        btn0.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolbar.addWidget(btn0)
+        btn1 = QToolButton()
+        btn1.setDefaultAction(self.action2Earth)
+        btn1.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolbar.addWidget(btn1)
         self.iface.addToolbar(self.toolbar)
         print("[here is]:", __file__, sys._getframe().f_lineno)
 
@@ -71,18 +83,23 @@ class cesiumPlugin:
                 self.iface, self.iface.mainWindow())
             self.iface.addDockWidget(Qt.TopDockWidgetArea, self.cesiumDialog)
             '''
-            self.cesiumDialog = createTabWidget(self.iface.mainWindow())
+            self.cesiumDialog, self.webview = createTabWidget(
+                self.iface.mainWindow())
             self.tabIndex = self.iface.addTabWidget(self.cesiumDialog)
             self.cesiumDialog.hide()
         except Exception as e:
             print('[cesium]: unhandled exception', e)
             traceback.print_exc()
         self.actionRun.triggered.connect(self.run)
+        self.action2Earth.triggered.connect(self.image2Earth)
         self.actionAbout.triggered.connect(self.about)
+
+    def progressCB(self, n):
+        self.iface.setProgress(n)
+        QCoreApplication.processEvents()
 
     def unload(self):
         self.iface.unregisterMainWindowAction(self.actionRun)
-
         self.iface.removeToolBarIcon(self.actionRun)
         self.iface.removePluginMenu(QCoreApplication.translate(
             'cesium', 'cesium'), self.actionRun)
@@ -96,6 +113,52 @@ class cesiumPlugin:
         else:
             self.iface.removeTabWidget(self.tabIndex)
             self.cesiumDialog.hide()
+
+    def image2Earth(self):
+        '''
+        tiling the image, add it as an imagery provider
+        '''
+        from optparse import OptionParser, OptionGroup
+        currentImg = self.iface.getCurrentFile()
+        if (currentImg.strip() != ''):
+            print('[cesium]: get the current image', currentImg)
+            self.tmp_dir = tempfile.mkdtemp()
+            p, fn = os.path.split(currentImg)
+            fn, ext = os.path.splitext(fn)
+            print('[cesium]:', fn)
+            print('[cesium]: temp dir is ', self.tmp_dir)
+            appdata = os.getenv("APPDATA")
+            print("[cesium]: app data is ", appdata)
+            outdir = os.path.join(appdata, 'rslabel/cache', fn)
+            tileMap = True
+            try:
+                swne = generate_tiles(currentImg,
+                                      outdir,
+                                      callback=self.progressCB,
+                                      resume=True)
+                print('[cesium]: image scope: ', swne[0:])
+            except Exception as e:
+                traceback.print_exc()
+                QtWidgets.QMessageBox.critical(
+                    self.iface.mainWindow(), '提示', '<p><b>%s</b></p>%s' % ('提示', '该影像缺少地理信息'))
+                tileMap = False
+            if (tileMap):
+                templateContent = "var layers = viewer.scene.imageryLayers;"\
+                    "var tms = new Cesium.UrlTemplateImageryProvider({{"\
+                    "url: \"../localfile/{0}/{{z}}/{{x}}/{{reverseY}}.png\","\
+                    "maximumLevel: 17,"\
+                    "tileWidth: 256,"\
+                    "tileHeight: 256"\
+                    "}});"\
+                    "layers.addImageryProvider(tms);"\
+                    "viewer.camera.flyTo({{"\
+                    "destination: Cesium.Cartesian3.fromDegrees({1}, {2}, 150.0)"\
+                    "}});"
+                x = float(swne[0] + swne[2]) / 2.0
+                y = float(swne[1] + swne[3]) / 2.0
+                self.iface.setCurrentTabIndex(self.tabIndex)
+                content = templateContent.format(fn, y, x)
+                self.webview.page().mainFrame().evaluateJavaScript(content)
 
     def about(self):
         d = AboutDialog()
