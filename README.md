@@ -13,12 +13,12 @@ you can using annaconda to download the python3.6 env and install PyQT5, gdal yo
 
 we provide a package 
 
-[python3.7 + PyGdal + PyQT5](https://pan.baidu.com/s/1h4soOEfQGFiTA88H1b8yuw)
+[python3.7 + PyGdal + PyQT5](https://pan.baidu.com/s/1yZVESoRWEvgQP1MO1l8xiA),the extraction code is **3crv**
 
 After you download it and unzip to your root folder. you can run the RSLabel.exe
 
 or you can download the binary from here
-[rslabel-install](https://pan.baidu.com/s/1d_f6AMOexDiOdXdTIxtWxA)   the extraction code is **tqtr**
+[rslabel-install](https://pan.baidu.com/s/1N5nKisVZN6HtFrnlWmqW4w)   the extraction code is **z0ia**
 
 ##  get started!
 - build overviews for images.  
