@@ -5,14 +5,11 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
-from .cesiumDialog import cesiumDialog, createTabWidget
+from .cesiumDialog import cesiumDialog, createTabWidget, createEarthWidget
 from .cesium_utils import *
 from . import resources_rc
-try:
-    from gdal2tiles import *
-    print('[cesium]: import gdal2tiles :-)')
-except:
-    print('[cesium]: cannot import gdal2tiles :(')
+from .tileDialog import *
+from .gdal2tiles import *
 
 
 class cesiumPlugin:
@@ -84,7 +81,7 @@ class cesiumPlugin:
             self.iface.addDockWidget(Qt.TopDockWidgetArea, self.cesiumDialog)
             '''
             self.cesiumDialog, self.webview = createTabWidget(
-                self.iface.mainWindow())
+                self.iface.mainWindow(), False)
             self.tabIndex = self.iface.addTabWidget(self.cesiumDialog)
             self.cesiumDialog.hide()
         except Exception as e:
@@ -117,6 +114,33 @@ class cesiumPlugin:
     def image2Earth(self):
         '''
         tiling the image, add it as an imagery provider
+        '''
+        currentImg = self.iface.getCurrentFile()
+        appdata = os.getenv("APPDATA")
+        p, fn = os.path.split(currentImg)
+        outdir = os.path.join(appdata, 'rslabel/cache', fn)
+        d = QTilesDialog(currentImg, outdir)
+        d.show()
+        d.exec_()
+        swne = d.swne
+        if(swne is not None):
+            templateContent = "var layers = viewer.scene.imageryLayers;"\
+                "var tms = new Cesium.UrlTemplateImageryProvider({{"\
+                "url: \"../localfile/{0}/{{z}}/{{x}}/{{reverseY}}.png\","\
+                "maximumLevel: 17,"\
+                "tileWidth: 256,"\
+                "tileHeight: 256"\
+                "}});"\
+                "layers.addImageryProvider(tms);"\
+                "viewer.camera.flyTo({{"\
+                "destination: Cesium.Cartesian3.fromDegrees({1}, {2}, 7500.0)"\
+                "}});"
+            x = float(swne[0] + swne[2]) / 2.0
+            y = float(swne[1] + swne[3]) / 2.0
+            self.iface.setCurrentTabIndex(self.tabIndex)
+            content = templateContent.format(fn, y, x)
+            self.webview.page().mainFrame().evaluateJavaScript(content)
+
         '''
         from optparse import OptionParser, OptionGroup
         currentImg = self.iface.getCurrentFile()
@@ -159,6 +183,7 @@ class cesiumPlugin:
                 self.iface.setCurrentTabIndex(self.tabIndex)
                 content = templateContent.format(fn, y, x)
                 self.webview.page().mainFrame().evaluateJavaScript(content)
+        '''
 
     def about(self):
         d = AboutDialog()

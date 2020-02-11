@@ -1,5 +1,5 @@
 /* This file is automatically rebuilt by the Cesium build process. */
-define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './defaultValue-f2e68450', './Math-fa6e45cb', './Cartesian2-2a723276', './defineProperties-6f7a50f2', './Transforms-a312718d', './RuntimeError-ad75c885', './WebGLConstants-497deb20', './ComponentDatatype-69643096', './when-ee12a2cb', './AttributeCompression-87682214', './IntersectionTests-a83a53f7', './Plane-c601d1ec', './WebMercatorProjection-f2dc467d', './createTaskProcessorWorker', './EllipsoidTangentPlane-d5dafbca', './OrientedBoundingBox-f789932a', './TerrainEncoding-3aaf3d8b'], function (defined, Check, freezeObject, defaultValue, _Math, Cartesian2, defineProperties, Transforms, RuntimeError, WebGLConstants, ComponentDatatype, when, AttributeCompression, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+define(['./when-76089d4c', './Check-5cd4f88e', './Math-4da9b357', './Cartesian2-88a9081c', './defineProperties-7057a760', './Transforms-30697ad4', './RuntimeError-bd79d86c', './WebGLConstants-e4e9c6cc', './ComponentDatatype-7dd74ff6', './AttributeCompression-3a5fff57', './IntersectionTests-654d9c0a', './Plane-b1ef5cca', './WebMercatorProjection-b2b73805', './createTaskProcessorWorker', './EllipsoidTangentPlane-e9c7ad83', './OrientedBoundingBox-58c2eee9', './TerrainEncoding-3123c576'], function (when, Check, _Math, Cartesian2, defineProperties, Transforms, RuntimeError, WebGLConstants, ComponentDatatype, AttributeCompression, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
 
     /**
          * The encoding that is used for a heightmap
@@ -25,7 +25,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
              */
             LERC: 1
         };
-    var HeightmapEncoding$1 = freezeObject.freezeObject(HeightmapEncoding);
+    var HeightmapEncoding$1 = when.freezeObject(HeightmapEncoding);
 
     /**
          * Contains functions to create a mesh from a heightmap image.
@@ -41,7 +41,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
          *
          * @constant
          */
-        HeightmapTessellator.DEFAULT_STRUCTURE = freezeObject.freezeObject({
+        HeightmapTessellator.DEFAULT_STRUCTURE = when.freezeObject({
             heightScale : 1.0,
             heightOffset : 0.0,
             elementsPerHeight : 1,
@@ -126,16 +126,16 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
          */
         HeightmapTessellator.computeVertices = function(options) {
             //>>includeStart('debug', pragmas.debug);
-            if (!defined.defined(options) || !defined.defined(options.heightmap)) {
+            if (!when.defined(options) || !when.defined(options.heightmap)) {
                 throw new Check.DeveloperError('options.heightmap is required.');
             }
-            if (!defined.defined(options.width) || !defined.defined(options.height)) {
+            if (!when.defined(options.width) || !when.defined(options.height)) {
                 throw new Check.DeveloperError('options.width and options.height are required.');
             }
-            if (!defined.defined(options.nativeRectangle)) {
+            if (!when.defined(options.nativeRectangle)) {
                 throw new Check.DeveloperError('options.nativeRectangle is required.');
             }
-            if (!defined.defined(options.skirtHeight)) {
+            if (!when.defined(options.skirtHeight)) {
                 throw new Check.DeveloperError('options.skirtHeight is required.');
             }
             //>>includeEnd('debug');
@@ -158,8 +158,8 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
             var height = options.height;
             var skirtHeight = options.skirtHeight;
 
-            var isGeographic = defaultValue.defaultValue(options.isGeographic, true);
-            var ellipsoid = defaultValue.defaultValue(options.ellipsoid, Cartesian2.Ellipsoid.WGS84);
+            var isGeographic = when.defaultValue(options.isGeographic, true);
+            var ellipsoid = when.defaultValue(options.ellipsoid, Cartesian2.Ellipsoid.WGS84);
 
             var oneOverGlobeSemimajorAxis = 1.0 / ellipsoid.maximumRadius;
 
@@ -171,7 +171,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
             var geographicNorth;
 
             var rectangle = options.rectangle;
-            if (!defined.defined(rectangle)) {
+            if (!when.defined(rectangle)) {
                 if (isGeographic) {
                     geographicWest = toRadians(nativeRectangle.west);
                     geographicSouth = toRadians(nativeRectangle.south);
@@ -191,18 +191,18 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
             }
 
             var relativeToCenter = options.relativeToCenter;
-            var hasRelativeToCenter = defined.defined(relativeToCenter);
+            var hasRelativeToCenter = when.defined(relativeToCenter);
             relativeToCenter = hasRelativeToCenter ? relativeToCenter : Cartesian2.Cartesian3.ZERO;
-            var exaggeration = defaultValue.defaultValue(options.exaggeration, 1.0);
-            var includeWebMercatorT = defaultValue.defaultValue(options.includeWebMercatorT, false);
+            var exaggeration = when.defaultValue(options.exaggeration, 1.0);
+            var includeWebMercatorT = when.defaultValue(options.includeWebMercatorT, false);
 
-            var structure = defaultValue.defaultValue(options.structure, HeightmapTessellator.DEFAULT_STRUCTURE);
-            var heightScale = defaultValue.defaultValue(structure.heightScale, HeightmapTessellator.DEFAULT_STRUCTURE.heightScale);
-            var heightOffset = defaultValue.defaultValue(structure.heightOffset, HeightmapTessellator.DEFAULT_STRUCTURE.heightOffset);
-            var elementsPerHeight = defaultValue.defaultValue(structure.elementsPerHeight, HeightmapTessellator.DEFAULT_STRUCTURE.elementsPerHeight);
-            var stride = defaultValue.defaultValue(structure.stride, HeightmapTessellator.DEFAULT_STRUCTURE.stride);
-            var elementMultiplier = defaultValue.defaultValue(structure.elementMultiplier, HeightmapTessellator.DEFAULT_STRUCTURE.elementMultiplier);
-            var isBigEndian = defaultValue.defaultValue(structure.isBigEndian, HeightmapTessellator.DEFAULT_STRUCTURE.isBigEndian);
+            var structure = when.defaultValue(options.structure, HeightmapTessellator.DEFAULT_STRUCTURE);
+            var heightScale = when.defaultValue(structure.heightScale, HeightmapTessellator.DEFAULT_STRUCTURE.heightScale);
+            var heightOffset = when.defaultValue(structure.heightOffset, HeightmapTessellator.DEFAULT_STRUCTURE.heightOffset);
+            var elementsPerHeight = when.defaultValue(structure.elementsPerHeight, HeightmapTessellator.DEFAULT_STRUCTURE.elementsPerHeight);
+            var stride = when.defaultValue(structure.stride, HeightmapTessellator.DEFAULT_STRUCTURE.stride);
+            var elementMultiplier = when.defaultValue(structure.elementMultiplier, HeightmapTessellator.DEFAULT_STRUCTURE.elementMultiplier);
+            var isBigEndian = when.defaultValue(structure.isBigEndian, HeightmapTessellator.DEFAULT_STRUCTURE.isBigEndian);
 
             var rectangleWidth = Cartesian2.Rectangle.computeWidth(nativeRectangle);
             var rectangleHeight = Cartesian2.Rectangle.computeHeight(nativeRectangle);
@@ -398,7 +398,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
 
             var boundingSphere3D = Transforms.BoundingSphere.fromPoints(positions);
             var orientedBoundingBox;
-            if (defined.defined(rectangle)) {
+            if (when.defined(rectangle)) {
                 orientedBoundingBox = OrientedBoundingBox.OrientedBoundingBox.fromRectangle(rectangle, minimumHeight, maximumHeight, ellipsoid);
             }
 

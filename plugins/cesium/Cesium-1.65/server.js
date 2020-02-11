@@ -10,24 +10,24 @@
     var gzipHeader = Buffer.from('1F8B08', 'hex');
 
     var yargs = require('yargs').options({
-        'port' : {
-            'default' : 8080,
-            'description' : 'Port to listen on.'
+        'port': {
+            'default': 8080,
+            'description': 'Port to listen on.'
         },
-        'public' : {
-            'type' : 'boolean',
-            'description' : 'Run a public server that listens on all interfaces.'
+        'public': {
+            'type': 'boolean',
+            'description': 'Run a public server that listens on all interfaces.'
         },
-        'upstream-proxy' : {
-            'description' : 'A standard proxy server that will be used to retrieve data.  Specify a URL including port, e.g. "http://proxy:8000".'
+        'upstream-proxy': {
+            'description': 'A standard proxy server that will be used to retrieve data.  Specify a URL including port, e.g. "http://proxy:8000".'
         },
-        'bypass-upstream-proxy-hosts' : {
-            'description' : 'A comma separated list of hosts that will bypass the specified upstream_proxy, e.g. "lanhost1,lanhost2"'
+        'bypass-upstream-proxy-hosts': {
+            'description': 'A comma separated list of hosts that will bypass the specified upstream_proxy, e.g. "lanhost1,lanhost2"'
         },
-        'help' : {
-            'alias' : 'h',
-            'type' : 'boolean',
-            'description' : 'Show this help.'
+        'help': {
+            'alias': 'h',
+            'type': 'boolean',
+            'description': 'Show this help.'
         }
     });
     var argv = yargs.argv;
@@ -41,14 +41,14 @@
     // *NOTE* Any changes you make here must be mirrored in web.config.
     var mime = express.static.mime;
     mime.define({
-        'application/json' : ['czml', 'json', 'geojson', 'topojson'],
-        'application/wasm' : ['wasm'],
-        'image/crn' : ['crn'],
-        'image/ktx' : ['ktx'],
-        'model/gltf+json' : ['gltf'],
-        'model/gltf-binary' : ['bgltf', 'glb'],
-        'application/octet-stream' : ['b3dm', 'pnts', 'i3dm', 'cmpt', 'geom', 'vctr'],
-        'text/plain' : ['glsl']
+        'application/json': ['czml', 'json', 'geojson', 'topojson'],
+        'application/wasm': ['wasm'],
+        'image/crn': ['crn'],
+        'image/ktx': ['ktx'],
+        'model/gltf+json': ['gltf'],
+        'model/gltf-binary': ['bgltf', 'glb'],
+        'application/octet-stream': ['b3dm', 'pnts', 'i3dm', 'cmpt', 'geom', 'vctr'],
+        'text/plain': ['glsl']
     }, true);
 
     var app = express();
@@ -75,7 +75,10 @@
             next();
         });
     }
-
+    var homedir = require("os").homedir();
+    var appPath = require("path").join(homedir, "/AppData/Roaming/rslabel/cache/");
+    console.log('[Node]:' + appPath)
+    app.use('/localfile', express.static(appPath));
     var knownTilesetFormats = [/\.b3dm/, /\.pnts/, /\.i3dm/, /\.cmpt/, /\.glb/, /\.geom/, /\.vctr/, /tileset.*\.json$/];
     app.get(knownTilesetFormats, checkGzipAndNext);
 
@@ -116,6 +119,7 @@
         });
     }
 
+
     app.get('/proxy/*', function(req, res, next) {
         // look for request like http://localhost:8080/proxy/http://example.com/file?query=1
         var remoteUrl = getRemoteUrlFromParam(req);
@@ -143,10 +147,10 @@
         // encoding : null means "body" passed to the callback will be raw bytes
 
         request.get({
-            url : url.format(remoteUrl),
-            headers : filterHeaders(req, req.headers),
-            encoding : null,
-            proxy : proxy
+            url: url.format(remoteUrl),
+            headers: filterHeaders(req, req.headers),
+            encoding: null,
+            proxy: proxy
         }, function(error, response, body) {
             var code = 500;
 
@@ -167,7 +171,7 @@
         }
     });
 
-    server.on('error', function (e) {
+    server.on('error', function(e) {
         if (e.code === 'EADDRINUSE') {
             console.log('Error: Port %d is already in use, select a different port.', argv.port);
             console.log('Example: node server.js --port %d', argv.port + 1);
@@ -190,7 +194,7 @@
         if (isFirstSig) {
             console.log('Cesium development server shutting down.');
             server.close(function() {
-              process.exit(0);
+                process.exit(0);
             });
             isFirstSig = false;
         } else {

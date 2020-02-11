@@ -1,5 +1,5 @@
 /* This file is automatically rebuilt by the Cesium build process. */
-define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './defaultValue-f2e68450', './Math-fa6e45cb', './Cartesian2-2a723276', './defineProperties-6f7a50f2', './Transforms-a312718d', './RuntimeError-ad75c885', './WebGLConstants-497deb20', './ComponentDatatype-69643096', './when-ee12a2cb', './AttributeCompression-87682214', './IndexDatatype-3de60176', './IntersectionTests-a83a53f7', './Plane-c601d1ec', './WebMercatorProjection-f2dc467d', './createTaskProcessorWorker', './EllipsoidTangentPlane-d5dafbca', './OrientedBoundingBox-f789932a', './TerrainEncoding-3aaf3d8b'], function (defined, Check, freezeObject, defaultValue, _Math, Cartesian2, defineProperties, Transforms, RuntimeError, WebGLConstants, ComponentDatatype, when, AttributeCompression, IndexDatatype, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+define(['./when-76089d4c', './Check-5cd4f88e', './Math-4da9b357', './Cartesian2-88a9081c', './defineProperties-7057a760', './Transforms-30697ad4', './RuntimeError-bd79d86c', './WebGLConstants-e4e9c6cc', './ComponentDatatype-7dd74ff6', './AttributeCompression-3a5fff57', './IndexDatatype-7c4ae249', './IntersectionTests-654d9c0a', './Plane-b1ef5cca', './WebMercatorProjection-b2b73805', './createTaskProcessorWorker', './EllipsoidTangentPlane-e9c7ad83', './OrientedBoundingBox-58c2eee9', './TerrainEncoding-3123c576'], function (when, Check, _Math, Cartesian2, defineProperties, Transforms, RuntimeError, WebGLConstants, ComponentDatatype, AttributeCompression, IndexDatatype, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
 
     var maxShort = 32767;
 
@@ -46,7 +46,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
             var uBuffer = quantizedVertices.subarray(0, quantizedVertexCount);
             var vBuffer = quantizedVertices.subarray(quantizedVertexCount, 2 * quantizedVertexCount);
             var heightBuffer = quantizedVertices.subarray(quantizedVertexCount * 2, 3 * quantizedVertexCount);
-            var hasVertexNormals = defined.defined(octEncodedNormals);
+            var hasVertexNormals = when.defined(octEncodedNormals);
 
             var uvs = new Array(quantizedVertexCount);
             var heights = new Array(quantizedVertexCount);
@@ -264,7 +264,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
 
             var previousIndex = -1;
 
-            var hasVertexNormals = defined.defined(octEncodedNormals);
+            var hasVertexNormals = when.defined(octEncodedNormals);
             var vertexStride = encoding.getStride();
             var vertexIndex = vertexBufferIndex / vertexStride;
 
@@ -343,7 +343,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
                 }
             }
 
-            if (!defined.defined(copy)) {
+            if (!when.defined(copy)) {
                 copy = Array.prototype.slice.call(typedArray);
             }
 

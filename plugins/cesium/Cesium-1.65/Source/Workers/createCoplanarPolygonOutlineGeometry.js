@@ -1,5 +1,5 @@
 /* This file is automatically rebuilt by the Cesium build process. */
-define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './defaultValue-f2e68450', './Math-fa6e45cb', './Cartesian2-2a723276', './defineProperties-6f7a50f2', './Transforms-a312718d', './RuntimeError-ad75c885', './WebGLConstants-497deb20', './ComponentDatatype-69643096', './GeometryAttribute-bb8a556c', './when-ee12a2cb', './GeometryAttributes-eecc9f43', './AttributeCompression-87682214', './GeometryPipeline-5fbc4143', './EncodedCartesian3-8b2b90d0', './IndexDatatype-3de60176', './IntersectionTests-a83a53f7', './Plane-c601d1ec', './GeometryInstance-2aa4ff3c', './arrayRemoveDuplicates-dd708d81', './EllipsoidTangentPlane-d5dafbca', './OrientedBoundingBox-f789932a', './CoplanarPolygonGeometryLibrary-36d4bda9', './ArcType-d521909b', './EllipsoidRhumbLine-c6cdbfd3', './PolygonPipeline-c1943379', './PolygonGeometryLibrary-8fe70054'], function (defined, Check, freezeObject, defaultValue, _Math, Cartesian2, defineProperties, Transforms, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, when, GeometryAttributes, AttributeCompression, GeometryPipeline, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane, GeometryInstance, arrayRemoveDuplicates, EllipsoidTangentPlane, OrientedBoundingBox, CoplanarPolygonGeometryLibrary, ArcType, EllipsoidRhumbLine, PolygonPipeline, PolygonGeometryLibrary) { 'use strict';
+define(['./when-76089d4c', './Check-5cd4f88e', './Math-4da9b357', './Cartesian2-88a9081c', './defineProperties-7057a760', './Transforms-30697ad4', './RuntimeError-bd79d86c', './WebGLConstants-e4e9c6cc', './ComponentDatatype-7dd74ff6', './GeometryAttribute-46ce3b25', './GeometryAttributes-36724c9f', './AttributeCompression-3a5fff57', './GeometryPipeline-813331d2', './EncodedCartesian3-e0dcfcb4', './IndexDatatype-7c4ae249', './IntersectionTests-654d9c0a', './Plane-b1ef5cca', './GeometryInstance-5d24038d', './arrayRemoveDuplicates-7554b927', './EllipsoidTangentPlane-e9c7ad83', './OrientedBoundingBox-58c2eee9', './CoplanarPolygonGeometryLibrary-1e5fe504', './ArcType-938f261b', './EllipsoidRhumbLine-c7012b36', './PolygonPipeline-a54cd173', './PolygonGeometryLibrary-3760572d'], function (when, Check, _Math, Cartesian2, defineProperties, Transforms, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, GeometryAttributes, AttributeCompression, GeometryPipeline, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane, GeometryInstance, arrayRemoveDuplicates, EllipsoidTangentPlane, OrientedBoundingBox, CoplanarPolygonGeometryLibrary, ArcType, EllipsoidRhumbLine, PolygonPipeline, PolygonGeometryLibrary) { 'use strict';
 
     function createGeometryFromPositions(positions){
             var length = positions.length;
@@ -57,7 +57,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
          * var geometry = Cesium.CoplanarPolygonOutlineGeometry.createGeometry(polygonOutline);
          */
         function CoplanarPolygonOutlineGeometry(options) {
-            options = defaultValue.defaultValue(options, defaultValue.defaultValue.EMPTY_OBJECT);
+            options = when.defaultValue(options, when.defaultValue.EMPTY_OBJECT);
             var polygonHierarchy = options.polygonHierarchy;
             //>>includeStart('debug', pragmas.debug);
             Check.Check.defined('options.polygonHierarchy', polygonHierarchy);
@@ -81,7 +81,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
          * @returns {CoplanarPolygonOutlineGeometry}
          */
         CoplanarPolygonOutlineGeometry.fromPositions = function(options) {
-            options = defaultValue.defaultValue(options, defaultValue.defaultValue.EMPTY_OBJECT);
+            options = when.defaultValue(options, when.defaultValue.EMPTY_OBJECT);
 
             //>>includeStart('debug', pragmas.debug);
             Check.Check.defined('options.positions', options.positions);
@@ -110,7 +110,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
             Check.Check.defined('array', array);
             //>>includeEnd('debug');
 
-            startingIndex = defaultValue.defaultValue(startingIndex, 0);
+            startingIndex = when.defaultValue(startingIndex, 0);
 
             startingIndex = PolygonGeometryLibrary.PolygonGeometryLibrary.packPolygonHierarchy(value._polygonHierarchy, array, startingIndex);
 
@@ -135,14 +135,14 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
             Check.Check.defined('array', array);
             //>>includeEnd('debug');
 
-            startingIndex = defaultValue.defaultValue(startingIndex, 0);
+            startingIndex = when.defaultValue(startingIndex, 0);
 
             var polygonHierarchy = PolygonGeometryLibrary.PolygonGeometryLibrary.unpackPolygonHierarchy(array, startingIndex);
             startingIndex = polygonHierarchy.startingIndex;
             delete polygonHierarchy.startingIndex;
             var packedLength = array[startingIndex];
 
-            if (!defined.defined(result)) {
+            if (!when.defined(result)) {
                 result = new CoplanarPolygonOutlineGeometry(scratchOptions);
             }
 
@@ -198,7 +198,7 @@ define(['./defined-26bd4a03', './Check-da037458', './freezeObject-2d83f591', './
         };
 
     function createCoplanarPolygonOutlineGeometry(polygonGeometry, offset) {
-            if (defined.defined(offset)) {
+            if (when.defined(offset)) {
                 polygonGeometry = CoplanarPolygonOutlineGeometry.unpack(polygonGeometry, offset);
             }
             polygonGeometry._ellipsoid = Cartesian2.Ellipsoid.clone(polygonGeometry._ellipsoid);

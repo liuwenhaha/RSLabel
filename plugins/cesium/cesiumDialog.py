@@ -4,21 +4,44 @@ import math
 import operator
 import locale
 import traceback
-from PyQt5.QtWebKitWidgets import QWebView
+from PyQt5.QtWebKit import QWebSettings
+from PyQt5.QtWebKitWidgets import QWebInspector, QWebView, QGraphicsWebView
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QVBoxLayout, QWidget, QDockWidget, QDialog, QFileDialog, QMessageBox, QDialogButtonBox
-from PyQt5.QtCore import QSettings, QDir, QUrl, QFileInfo, Qt, pyqtSlot
-from .DetachableTabWidget import *
+from PyQt5.QtWidgets import QVBoxLayout, QSplitter, QWidget, QDockWidget, QDialog, QFileDialog, QMessageBox, QDialogButtonBox
+from PyQt5.QtWidgets import QGraphicsScene, QGraphicsView
+from PyQt5.QtCore import QRectF, QSettings, QDir, QUrl, QFileInfo, Qt, pyqtSlot
+#from PyQt5.QtWebEngineWidgets import *
+from .EarthTabWidget import *
 
 
-def createTabWidget(parent):
-    tabWidget = DetachableTabWidget(parent)
+def createEarthWidget(parent):
+    earth = EarthTabWidget(parent)
+    return earth, earth.webviewItem
+
+
+def createTabWidget(parent, inspector=False):
+    tabWidget = QtWidgets.QTabWidget(parent)
     tabWidget.setWindowTitle('cesium数字地球')
-    webview = QWebView()
+    tabWidget.setLayout(QVBoxLayout())
+    webview = QWebView()  # QWebEngineView()
+    webview.settings().setAttribute(
+        QWebSettings.WebGLEnabled, True)
+    webview.settings().setAttribute(
+        QWebSettings.AcceleratedCompositingEnabled, True)
     url = "http://localhost:8080/Apps/HelloWorld.html"
     webview.load(QUrl(url))
-    tabWidget.setLayout(QVBoxLayout())
-    tabWidget.layout().addWidget(webview)
+    webview.settings().setAttribute(
+        QWebSettings.DeveloperExtrasEnabled, True)
+    if inspector:
+        inspector = QWebInspector()
+        inspector.setPage(webview.page())
+        splitter = QSplitter(parent)
+        splitter.addWidget(webview)
+        splitter.addWidget(inspector)
+        tabWidget.layout().addWidget(splitter)
+    else:
+        tabWidget.layout().addWidget(webview)
+
     return tabWidget, webview
 
 

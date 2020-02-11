@@ -8,11 +8,38 @@ import OpenStreetMapImageryProvider from '../../Scene/OpenStreetMapImageryProvid
 import TileMapServiceImageryProvider from '../../Scene/TileMapServiceImageryProvider.js';
 import ProviderViewModel from '../BaseLayerPicker/ProviderViewModel.js';
 
-    /**
-     * @private
-     */
-    function createDefaultImageryProviderViewModels() {
-        var providerViewModels = [];
+/**
+ * @private
+ */
+function createDefaultImageryProviderViewModels() {
+    var providerViewModels = [];
+    providerViewModels.push(new ProviderViewModel({
+        name: 'Google',
+        iconUrl: buildModuleUrl('Widgets/Images/ImageryProviders/esriWorldImagery.png'),
+        tooltip: 'Google Earth is a collaborative project to create a free editable map \
+of the world.',
+        category: 'Other',
+        creationFunction: function() {
+            return new Cesium.UrlTemplateImageryProvider({
+                url: "https://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"
+            });
+        }
+    }));
+    providerViewModels.push(new ProviderViewModel({
+        name: 'Open\u00adStreet\u00adMap',
+        iconUrl: buildModuleUrl('Widgets/Images/ImageryProviders/openStreetMap.png'),
+        tooltip: 'OpenStreetMap (OSM) is a collaborative project to create a free editable map \
+of the world.\nhttp://www.openstreetmap.org',
+        category: 'Other',
+        creationFunction: function() {
+            return new OpenStreetMapImageryProvider({
+                url: 'https://a.tile.openstreetmap.org/'
+            });
+        }
+    }));
+
+
+    /*
         providerViewModels.push(new ProviderViewModel({
             name : 'Bing Maps Aerial',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/bingAerial.png'),
@@ -24,7 +51,7 @@ import ProviderViewModel from '../BaseLayerPicker/ProviderViewModel.js';
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'Bing Maps Aerial with Labels',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/bingAerialLabels.png'),
@@ -36,7 +63,7 @@ import ProviderViewModel from '../BaseLayerPicker/ProviderViewModel.js';
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'Bing Maps Roads',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/bingRoads.png'),
@@ -48,7 +75,7 @@ import ProviderViewModel from '../BaseLayerPicker/ProviderViewModel.js';
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name: 'Mapbox Satellite',
             tooltip: 'Mapbox satellite imagery https://www.mapbox.com/maps/',
@@ -60,7 +87,7 @@ import ProviderViewModel from '../BaseLayerPicker/ProviderViewModel.js';
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name: 'Mapbox Streets',
             tooltip: 'Mapbox streets imagery https://www.mapbox.com/maps/',
@@ -72,7 +99,7 @@ import ProviderViewModel from '../BaseLayerPicker/ProviderViewModel.js';
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name: 'Mapbox Streets Classic',
             tooltip: 'Mapbox streets basic imagery https://www.mapbox.com/maps/',
@@ -84,18 +111,18 @@ import ProviderViewModel from '../BaseLayerPicker/ProviderViewModel.js';
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'ESRI World Imagery',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/esriWorldImagery.png'),
             tooltip : '\
-World Imagery provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution \
-satellite imagery worldwide.  The map includes NASA Blue Marble: Next Generation 500m resolution imagery at small scales \
-(above 1:1,000,000), i-cubed 15m eSAT imagery at medium-to-large scales (down to 1:70,000) for the world, and USGS 15m Landsat \
-imagery for Antarctica. The map features 0.3m resolution imagery in the continental United States and 0.6m resolution imagery in \
-parts of Western Europe from DigitalGlobe. In other parts of the world, 1 meter resolution imagery is available from GeoEye IKONOS, \
-i-cubed Nationwide Prime, Getmapping, AeroGRID, IGN Spain, and IGP Portugal.  Additionally, imagery at different resolutions has been \
-contributed by the GIS User Community.\nhttp://www.esri.com',
+    World Imagery provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution \
+    satellite imagery worldwide.  The map includes NASA Blue Marble: Next Generation 500m resolution imagery at small scales \
+    (above 1:1,000,000), i-cubed 15m eSAT imagery at medium-to-large scales (down to 1:70,000) for the world, and USGS 15m Landsat \
+    imagery for Antarctica. The map features 0.3m resolution imagery in the continental United States and 0.6m resolution imagery in \
+    parts of Western Europe from DigitalGlobe. In other parts of the world, 1 meter resolution imagery is available from GeoEye IKONOS, \
+    i-cubed Nationwide Prime, Getmapping, AeroGRID, IGN Spain, and IGP Portugal.  Additionally, imagery at different resolutions has been \
+    contributed by the GIS User Community.\nhttp://www.esri.com',
             category : 'Other',
             creationFunction : function() {
                 return new ArcGisMapServerImageryProvider({
@@ -104,15 +131,15 @@ contributed by the GIS User Community.\nhttp://www.esri.com',
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'ESRI World Street Map',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/esriWorldStreetMap.png'),
             tooltip : '\
-This worldwide street map presents highway-level data for the world. Street-level data includes the United States; much of \
-Canada; Japan; most countries in Europe; Australia and New Zealand; India; parts of South America including Argentina, Brazil, \
-Chile, Colombia, and Venezuela; Ghana; and parts of southern Africa including Botswana, Lesotho, Namibia, South Africa, and Swaziland.\n\
-http://www.esri.com',
+    This worldwide street map presents highway-level data for the world. Street-level data includes the United States; much of \
+    Canada; Japan; most countries in Europe; Australia and New Zealand; India; parts of South America including Argentina, Brazil, \
+    Chile, Colombia, and Venezuela; Ghana; and parts of southern Africa including Botswana, Lesotho, Namibia, South Africa, and Swaziland.\n\
+    http://www.esri.com',
             category : 'Other',
             creationFunction : function() {
                 return new ArcGisMapServerImageryProvider({
@@ -121,14 +148,14 @@ http://www.esri.com',
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'ESRI National Geographic',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/esriNationalGeographic.png'),
             tooltip : '\
-This web map contains the National Geographic World Map service. This map service is designed to be used as a general reference map \
-for informational and educational purposes as well as a basemap by GIS professionals and other users for creating web maps and web \
-mapping applications.\nhttp://www.esri.com',
+    This web map contains the National Geographic World Map service. This map service is designed to be used as a general reference map \
+    for informational and educational purposes as well as a basemap by GIS professionals and other users for creating web maps and web \
+    mapping applications.\nhttp://www.esri.com',
             category : 'Other',
             creationFunction : function() {
                 return new ArcGisMapServerImageryProvider({
@@ -137,25 +164,14 @@ mapping applications.\nhttp://www.esri.com',
                 });
             }
         }));
-
-        providerViewModels.push(new ProviderViewModel({
-            name : 'Open\u00adStreet\u00adMap',
-            iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/openStreetMap.png'),
-            tooltip : 'OpenStreetMap (OSM) is a collaborative project to create a free editable map \
-of the world.\nhttp://www.openstreetmap.org',
-            category : 'Other',
-            creationFunction : function() {
-                return new OpenStreetMapImageryProvider({
-                    url : 'https://a.tile.openstreetmap.org/'
-                });
-            }
-        }));
-
+        
+        
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'Stamen Watercolor',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/stamenWatercolor.png'),
             tooltip : 'Reminiscent of hand drawn maps, Stamen watercolor maps apply raster effect \
-area washes and organic edges over a paper texture to add warm pop to any map.\nhttp://maps.stamen.com',
+    area washes and organic edges over a paper texture to add warm pop to any map.\nhttp://maps.stamen.com',
             category : 'Other',
             creationFunction : function() {
                 return new OpenStreetMapImageryProvider({
@@ -164,7 +180,7 @@ area washes and organic edges over a paper texture to add warm pop to any map.\n
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'Stamen Toner',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/stamenToner.png'),
@@ -177,7 +193,7 @@ area washes and organic edges over a paper texture to add warm pop to any map.\n
                 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'Sentinel-2',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/sentinel-2.png'),
@@ -187,7 +203,7 @@ area washes and organic edges over a paper texture to add warm pop to any map.\n
                 return new IonImageryProvider({ assetId: 3954 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'Blue Marble',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/blueMarble.png'),
@@ -197,7 +213,7 @@ area washes and organic edges over a paper texture to add warm pop to any map.\n
                 return new IonImageryProvider({ assetId: 3845 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'Earth at night',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/earthAtNight.png'),
@@ -207,7 +223,7 @@ area washes and organic edges over a paper texture to add warm pop to any map.\n
                 return new IonImageryProvider({ assetId: 3812 });
             }
         }));
-
+        
         providerViewModels.push(new ProviderViewModel({
             name : 'Natural Earth\u00a0II',
             iconUrl : buildModuleUrl('Widgets/Images/ImageryProviders/naturalEarthII.png'),
@@ -219,7 +235,7 @@ area washes and organic edges over a paper texture to add warm pop to any map.\n
                 });
             }
         }));
-
-        return providerViewModels;
-    }
+        */
+    return providerViewModels;
+}
 export default createDefaultImageryProviderViewModels;

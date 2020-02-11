@@ -18,6 +18,8 @@ cd /d %~dp0
 ::Ui Compilation
 call pyuic5 ui\aboutdialogbase.ui -o gui\generated\ui_aboutdialogbase.py 
 call pyuic5 ui\cesium.ui -o gui\generated\ui_cesium.py
+call pyuic5 ui\tiledialog.ui -o gui\generated\ui_tiledialog.py
+
 
 ::Resources
 call pyrcc5 resources.qrc -o gui\generated\resources_rc.py
