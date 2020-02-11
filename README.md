@@ -56,7 +56,7 @@ you can export the result as VOC or COCO dataset's format , and use tensorflow o
 When marking an image, if the image contains geographic coordinates, you can use it as a layer on the cesium digital earth, but this feature may affect the speed of the software, you can also remove this plug-in by removing the python/plugins directory under the root
 ![](https://github.com/enigma19971/RSLabel/blob/master/rslabel-with-cesium.PNG "cesium global earth as a plugin "),this tool allow you to add image to the cesium earth by add a tms imagery provider to cesium engine. but when the image is large ,  it will take long time to make the TMS tileset.
 
-![](https://github.com/enigma19971/RSLabel/blob/master/onearth.PNG)
+![](https://github.com/enigma19971/RSLabel/blob/master/onearth.PNG  "add image to earth")
 
 
 ##	contact us
